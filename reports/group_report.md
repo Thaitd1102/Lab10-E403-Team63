@@ -4,13 +4,12 @@
 **Thành viên:**
 | Tên | Vai trò (Day 10) | Email |
 |-----|------------------|-------|
-| Team | Ingestion / Raw Owner | — |
-| Team | Cleaning & Quality Owner | — |
-| Team | Embed & Idempotency Owner | — |
-| Team | Monitoring / Docs Owner | — |
-
+| Thái | Ingestion / Raw Owner | 26ai.thaitd@vinuni.edu.vn |
+| Ánh | Cleaning & Quality Owner | 26ai.anhdt4@vinuni.edu.vn |
+| Huy | Embed & Idempotency Owner | 26ai.huydpb@vinuni.edu.vn |
+| Quân | Monitoring / Docs Owner | 26ai.quanmv@vinuni.edu.vn |
 **Ngày nộp:** 2026-04-15  
-**Repo:** github.com/vinfast-ai/lab-day10  
+**Repo:** https://github.com/Thaitd1102/Lab10-E403-Team63.git  
 **Độ dài báo cáo:** 850 từ
 
 ---

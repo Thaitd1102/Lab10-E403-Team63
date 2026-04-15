@@ -1,6 +1,6 @@
 # Báo Cáo Cá Nhân — Lab Day 10: Data Pipeline & Observability
 
-**Họ và tên:** Member 1 (Ingestion Owner)  
+**Họ và tên:** Trương Đức Thái 
 **Vai trò:** Ingestion / Raw Owner  
 **Ngày nộp:** 2026-04-15  
 **Độ dài báo cáo:** 520 từ
