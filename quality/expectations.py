@@ -112,5 +112,29 @@ def run_expectations(cleaned_rows: List[Dict[str, Any]]) -> Tuple[List[Expectati
         )
     )
 
+    # Sprint 2 — E7: no_missing_exported_at (halt) — need timestamp for freshness SLA
+    bad_exp_at = [r for r in cleaned_rows if not (r.get("exported_at") or "").strip()]
+    ok7 = len(bad_exp_at) == 0
+    results.append(
+        ExpectationResult(
+            "no_missing_exported_at",
+            ok7,
+            "halt",
+            f"rows_missing_exported_at={len(bad_exp_at)}",
+        )
+    )
+
+    # Sprint 2 — E8: chunk_max_length_2000 (warn) — detect oversized chunks
+    long_chunks = [r for r in cleaned_rows if len((r.get("chunk_text") or "")) > 2000]
+    ok8 = len(long_chunks) == 0
+    results.append(
+        ExpectationResult(
+            "chunk_max_length_2000",
+            ok8,
+            "warn",
+            f"oversized_chunks={len(long_chunks)}",
+        )
+    )
+
     halt = any(not r.passed and r.severity == "halt" for r in results)
     return results, halt

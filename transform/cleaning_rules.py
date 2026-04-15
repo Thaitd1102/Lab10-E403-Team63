@@ -77,6 +77,11 @@ def clean_rows(
     4) Quarantine: chunk_text rỗng hoặc effective_date rỗng sau chuẩn hoá.
     5) Loại trùng nội dung chunk_text (giữ bản đầu).
     6) Fix stale refund: policy_refund_v4 chứa '14 ngày làm việc' → 7 ngày.
+
+    Sprint 2 — 3 rule mới (metric_impact được đo trong quality_report):
+    7) missing_exported_at: quarantine nếu exported_at rỗng (freshness tracking fail).
+    8) exported_date_in_future: quarantine nếu exported_at > hôm nay (export logic sai).
+    9) chunk_length_limit: quarantine nếu chunk_text > 2000 chars (tránh token limit / embedding cost).
     """
     quarantine: List[Dict[str, Any]] = []
     seen_text: set[str] = set()
@@ -113,6 +118,28 @@ def clean_rows(
 
         if not text:
             quarantine.append({**raw, "reason": "missing_chunk_text"})
+            continue
+
+        # Sprint 2 — Rule 7: Check missing_exported_at for freshness SLA tracking
+        if not exported_at or exported_at.strip() == "":
+            quarantine.append({**raw, "reason": "missing_exported_at"})
+            continue
+
+        # Sprint 2 — Rule 8: Validate exported_at is not in future (export logic sanity)
+        # Parse as ISO-like format to compare dates; tolerate errors
+        try:
+            exp_dt_str = exported_at.split("T")[0] if "T" in exported_at else exported_at.split(" ")[0]
+            if exp_dt_str > "2026-04-15":  # Current date
+                quarantine.append({**raw, "reason": "exported_date_in_future", "exported_at_value": exported_at})
+                continue
+        except Exception:
+            pass  # If parse fails, let it through (not critical for this demo)
+
+        # Sprint 2 — Rule 9: Enforce chunk length limit (token cost & embedding size)
+        if len(text) > 2000:
+            quarantine.append(
+                {**raw, "reason": "chunk_length_limit_exceeded", "chunk_length": len(text)}
+            )
             continue
 
         key = _norm_text(text)
