@@ -44,9 +44,12 @@ Raw Export (CSV)
      └→ SLA: 24 hours (configurable)
 ```
 
+=======
+
 ---
 
 ## 2. Ranh giới trách nhiệm
+
 
 | Thành phần | Input | Output | Owner vai trò |
 |------------|-------|--------|---|
@@ -56,10 +59,13 @@ Raw Export (CSV)
 | **Embed** | cleaned CSV | Chroma collection, embed_prune_removed count | Embed Owner |
 | **Publish** | embed result | manifest JSON (run_id, metrics) | Embed Owner |
 | **Monitor** | manifest JSON | freshness_check result (PASS/WARN/FAIL) | Monitoring/Docs Owner |
+=======
+
 
 ---
 
 ## 3. Idempotency & rerun
+
 
 **Upsert strategy (chunk_id):**
 - All cleaned rows have stable `chunk_id` = hash(doc_id + chunk_text + seq)
@@ -79,6 +85,8 @@ python etl_pipeline.py run --run-id test1
 python etl_pipeline.py run --run-id test2  
 # collection size = 6 (no dupes, idempotent)
 ```
+=======
+
 
 ---
 
@@ -104,10 +112,13 @@ col = client.get_collection("day10_kb")  # Same embedding model
 results = col.query(query_texts=["7 ngày hoàn tiền"], n_results=3)
 # Top-1 should be policy_refund_v4 (correct version)
 ```
+=======
+
 
 ---
 
 ## 5. Rủi ro đã biết
+
 
 1. **Vector staleness**: If embed not pruned after cleaning rule change → top-k may return old chunks → agent mislead
    - Mitigation: Always run prune step; log `embed_prune_removed`
@@ -125,4 +136,7 @@ results = col.query(query_texts=["7 ngày hoàn tiền"], n_results=3)
 5. **Chunk length limit (2000 chars)**: Long policy clauses may be truncated
    - Trade-off: Token cost vs coverage
    - Mitigation: Evaluate `chunk_max_length_2000` warning before production
+
+=======
+- …
 

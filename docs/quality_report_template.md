@@ -2,10 +2,13 @@
 
 **run_id:** sprint2-expanded (baseline clean) & sprint3-inject-bad (corrupted)  
 **Ngày:** 2026-04-15
+=======
+
 
 ---
 
 ## 1. Tóm tắt số liệu
+
 
 | Chỉ số | Sprint 2 (baseline) | Sprint 3 (corrupted)| Ghi chú |
 |--------|---|---|---|
@@ -14,10 +17,13 @@
 | quarantine_records | 4 | 4 | Same failure reasons |
 | Expectation halt? | NO ✓ | YES ❌ | refund_no_stale_14d_window FAIL |
 | expectations_ok | 8/8 PASS | 7/8 PASS | E3 failure in Sprint 3 |
+=======
+
 
 ---
 
 ## 2. Before / after retrieval (bắt buộc)
+
 
 **Dataset source:** `data/test_questions.json` (4 golden queries)  
 **Evaluator:** `eval_retrieval.py` (keyword-based top-k matching)
@@ -64,6 +70,8 @@ question_id,contains_expected,top1_doc_expected
 q_leave_version,yes,yes
 ```
 ✅ PASS: Baseline rule (stale HR <2026-01-01) still works
+=======
+
 
 ---
 
@@ -86,6 +94,8 @@ FAIL — age_hours=115.187 > 24.0
 **Explanation:** Source CSV has very old export (2026-04-10); expected for lab demo (represents stale data scenario). In production, would trigger alarm at 24h threshold.
 
 **Mitigation:** Upstream (HR DB) must export fresh policy within 24h of changes.
+=======
+
 
 ---
 
@@ -103,6 +113,8 @@ FAIL — age_hours=115.187 > 24.0
 - Quarantine: No change (same records); difference is in cleaned data content
 
 **Result:** All expectations in Sprint 2 → 8/8 PASS; in Sprint 3 → 7/8 FAIL (E3 halt blocked by --skip-validate)
+=======
+
 
 ---
 
@@ -113,4 +125,6 @@ FAIL — age_hours=115.187 > 24.0
 3. **No A/B test framework:** Only compare 2 snapshots. Could build continuous experiment tracking.
 4. **Hardcoded cutoff dates:** HR version cutoff "2026-01-01" in code (Rule #3). Should read from `data_contract.yaml` for flexibility.
 5. **No automated roll-forward:** After --skip-validate, would need manual deploy approval to publish corrupted collection.
+
+=======
 

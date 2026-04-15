@@ -1,6 +1,8 @@
 # Báo Cáo Nhóm — Lab Day 10: Data Pipeline & Data Observability
 
-**Tên nhóm:** Lab Day 10 Demo Group  
+
+=======
+**Tên nhóm:** 63  
 **Thành viên:**
 | Tên | Vai trò (Day 10) | Email |
 |-----|------------------|-------|
@@ -8,8 +10,11 @@
 | Ánh | Cleaning & Quality Owner | 26ai.anhdt4@vinuni.edu.vn |
 | Huy | Embed & Idempotency Owner | 26ai.huydpb@vinuni.edu.vn |
 | Quân | Monitoring / Docs Owner | 26ai.quanmv@vinuni.edu.vn |
+
+=======
+
 **Ngày nộp:** 2026-04-15  
-**Repo:** https://github.com/Thaitd1102/Lab10-E403-Team63.git  
+**Repo:** https://github.com/Thaitd1102/Lab10-E403-Team63  
 **Độ dài báo cáo:** 850 từ
 
 ---

@@ -10,6 +10,8 @@
 Or:  
 **Agent retrieves** policy chunk mentioning "10 ngày phép năm" (old HR 2025)  
 **Expected:** "12 ngày phép năm" (current 2026 policy)
+=======
+
 
 ---
 
@@ -33,17 +35,26 @@ Top-k results contain "14 ngày" (forbidden keyword).
 freshness_check=FAIL ... reason=freshness_sla_exceeded (age_hours=115 > 24)
 ```
 Source data export is older than SLA → ingest data may be outdated.
+=======
+
 
 ---
 
 ## Diagnosis
 
 | Bước | Việc làm | Kết quả mong đợi |
+
 |------|------|---|
 | 1 | `cat artifacts/manifests/manifest_<run-id>.json` | latest_exported_at < 24h; no_refund_fix=false |
 | 2 | `cat artifacts/quarantine/quarantine_<run-id>.csv \| grep refund` | Stale chunks should NOT be here (shouldn't be quarantined) |
 | 3 | `cat artifacts/cleaned/cleaned_<run-id>.csv \| grep "14 ngày"` | Should return empty (fix applied) |
 | 4 | `python eval_retrieval.py --out eval_debug.csv && grep q_refund eval_debug.csv` | Real retrieval: contains_expected=yes AND hits_forbidden=no |
+=======
+|------|----------|------------------|
+| 1 | Kiểm tra `artifacts/manifests/*.json` | … |
+| 2 | Mở `artifacts/quarantine/*.csv` | … |
+| 3 | Chạy `python eval_retrieval.py` | … |
+
 
 ---
 
@@ -77,6 +88,8 @@ Source data export is older than SLA → ingest data may be outdated.
 - Re-trigger source export (upstream task)
 - Adjust FRESHNESS_SLA_HOURS in .env if changed
 - Post banner: "Policy data last updated X hours ago"
+=======
+
 
 ---
 
@@ -99,3 +112,5 @@ Source data export is older than SLA → ingest data may be outdated.
 ### Add to Day 09 handoff:
 - Agent logs top-k chunk metadata (doc_id, run_id, effective_date)
 - If agent.response ≠ expected → trace run_id for root cause audit
+=======
+
